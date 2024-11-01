@@ -1,6 +1,6 @@
 # fishtankLiveViewer
 
-fishtankViewer is a Chromium extension that allows users to view multiple live streams from various locations in a fishtank live website. Users can toggle streams on and off, and expand individual streams to fullscreen.
+fishtankExtension is a Chromium extension that allows users to view multiple live streams from various locations in a fishtank live website. Users can toggle streams on and off, and expand individual streams to fullscreen.
 
 ## Features
 
@@ -19,8 +19,8 @@ fishtankViewer is a Chromium extension that allows users to view multiple live s
      - Open Chrome and go to `chrome://extensions/`.
      - Enable "Developer mode" in the top right corner.
      - Click on "Load unpacked" and select the directory where you saved the source code.
-   - Similar steps for all Chromium browsers.
-
+   - Similar steps for all Chromium browsers (e.g. Brave browser has `brave://extensions`).
+     
 3. **Start using the extension:**
    - Click on the fishtankliveViewer icon in your browser's toolbar to open the extension.
 
@@ -36,7 +36,7 @@ fishtankViewer is a Chromium extension that allows users to view multiple live s
 
 ## Contributing
 
-This is my first go at this. If you have suggestions for improvements or find bugs, feel free to open an issue.
+This is my first go at this. If you have suggestions for improvements or find bugs, feel free to open an issue (or suggest in the threads, ill be lurking).
 
 ## License
 
