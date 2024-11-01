@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fishtank Video Players</title>
+    <script src="libs/hls.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #8c8c8c;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        h2 {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-top: 2px;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        #videoContainer {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(300px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .video-player {
+            background: #2f2f2f;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        video {
+            width: 100%;
+            /*max-width: 300px;*/
+            border-radius: 4px;
+        }
+
+        #dropdownButton {
+            margin: 5px;
+            padding: 8px 8px;
+            cursor: pointer;
+        }
+
+        #checkboxContainer {
+            display: none;
+            grid-template-columns: repeat(4, 1fr); /* 4 columns for a grid layout */
+            gap: 3px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .button-row {
+            grid-column: span 4;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .button-row button {
+            flex: 1;
+            margin: 0 5px;
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-item label {
+            margin-left: 8px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Fishtank S3 Video Players</h1>
+
+    <button id="dropdownButton">Display Options</button>
+    <div id="checkboxContainer" style="display: none;"></div>
+
+    <div id="videoContainer"></div>
+
+    <script src="player.js"></script>
+</body>
+</html>

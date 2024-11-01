@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="videoTitle">Fullscreen Video</title>
+    <script src="libs/hls.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            background-color: #000; /* Black background for full screen */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* Full viewport height */
+            padding: 20px; /* Padding around the video */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-size: 2em;
+            font-weight: bold;
+            z-index: 1000; /* Ensure it is above the video */
+        }
+
+        video {
+            width: 100%;
+            height: auto; /* Maintain aspect ratio */
+            max-height: calc(100vh - 40px); /* Ensure it fits within the viewport */
+            border: none; /* Remove borders */
+            display: block; /* Ensure it occupies the full space */
+        }
+        .exit-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 0, 0, 0.7);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            z-index: 1000; /* Ensure it is above the video */
+        }
+
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 0, 0, 0.7);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .left-button {
+            left: 20px; /* Position on the left */
+        }
+
+        .right-button {
+            right: 20px; /* Position on the right */
+        }
+
+    </style>
+</head>
+<body>
+    <button class="exit-button">Exit Fullscreen</button>
+    <button class="nav-button left-button">←</button>
+    <button class="nav-button right-button">→</button>
+    <h1 id="fullscreenTitle"> </h1>
+    <video id="fullscreenVideo" controls autoplay></video>
+    <script src="libs/hls.min.js"></script>
+    <script src="fullscreen.js"></script>
+</body>
+</html>
