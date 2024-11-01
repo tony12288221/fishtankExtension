@@ -19,7 +19,7 @@ fishtankExtension is a Chromium extension that allows users to view multiple liv
      - Open Chrome and go to `chrome://extensions/`.
      - Enable "Developer mode" in the top right corner.
      - Click on "Load unpacked" and select the directory where you saved the source code.
-   - Similar steps for all Chromium browsers (e.g. Brave browser has `brave://extensions`).
+   - Compatible with all Chromium browsers.
      
 3. **Start using the extension:**
    - Click on the fishtankliveViewer icon in your browser's toolbar to open the extension.
