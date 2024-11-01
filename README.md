@@ -29,6 +29,7 @@ fishtankExtension is a Chromium extension that allows users to view multiple liv
 - Select streams to display using the checkboxes.
 - Click "Expand" to view a stream in fullscreen mode.
 - Use the "Select All" and "Deselect All" buttons for quick management of your stream selections.
+- If the formatting or anything bugs out, just refresh the page or extension. If that doesn't resolve it, report the bug.
 
 ## Configuration
 
