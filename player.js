@@ -29,17 +29,77 @@ document.addEventListener("DOMContentLoaded", function() {
     const videoContainer = document.getElementById("videoContainer");
     const checkboxContainer = document.getElementById("checkboxContainer");
     const toggleStates = initializeToggleStates();
-    
+    initializeColumnStates();
+    let videoOrder = initializeVideoOrder();
+    let videoWrapperIDs = indexFromvideoWrapper();
+    let activeStreams = videoWrapperIDs.map(index => streams[index]);
+    console.log(activeStreams);
     addSelectButtons();
     createStreamCheckboxes();
+    initializeSyncUIWithToggleStates(activeStreams, videoWrapperIDs);
     syncUIWithToggleStates();
+    updateVideoGrid();
+    getVideoOrder();
+    updateURL();
 
     document.getElementById("dropdownButton").addEventListener("click", toggleCheckboxContainer);
+
+    document.addEventListener("click", function() {
+        const columnSelect = document.getElementById("columnSelect");
+        columnSelect.addEventListener("change", updateVideoGrid);
+        updateButtonVisibility();
+        getVideoOrder();
+        updateURL();
+    });
 
     function initializeToggleStates() {
         const urlParams = new URLSearchParams(window.location.search);
         const togglesString = urlParams.get('toggles');
-        return togglesString ? togglesString.split(',').map(toggle => toggle.trim() === 'true') : new Array(streams.length).fill(true);
+        return togglesString ? togglesString.split(',').map(toggle => toggle.trim() === 'true') : new Array(streams.length).fill(false);
+    }
+
+    function initializeSyncUIWithToggleStates(activeStreams, videoWrapperIDs) {
+        activeStreams.forEach((_, index) => {
+            index_streams = videoWrapperIDs[index];
+            const checkbox = document.getElementById(`streamCheckbox${index_streams}`);
+            checkbox.checked = toggleStates[index_streams];
+            toggleStreamDisplay(index_streams, toggleStates[index_streams]);
+        });
+        updateVideoGrid();  // Adjust grid layout after syncing UI
+    }
+
+    function initializeColumnStates() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const columnSelectString = urlParams.get('columns');
+        const columnSelect = document.getElementById("columnSelect");
+        if (columnSelectString) {
+            columnSelect.value = columnSelectString;
+        } else {
+            columnSelect.value = "auto";
+        }
+    }
+
+    function initializeVideoOrder() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderString = urlParams.get('videoOrder');
+        let videoOrder0;
+    
+        if (orderString) {
+            videoOrder0 = orderString.split(',');
+        } else {
+            videoOrder0 = Array.from(videoContainer.children).map(wrapper => wrapper.id);
+        }
+        console.log(videoOrder0);
+    
+        return videoOrder0;
+    }
+
+    function indexFromvideoWrapper() {
+        const videoNumbers = videoOrder.map(wrapper => {
+            const match = wrapper.match(/\d+/); // Match one or more digits
+            return match ? parseInt(match[0], 10) : null; // Convert to integer or return null if no match
+        }).filter(num => num !== null); // Filter out any null values
+        return videoNumbers
     }
 
     function addSelectButtons() {
@@ -108,14 +168,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 videoWrapper.remove();
             }
         }
+        updateVideoGrid();
+        updateURL();
     }
-    
 
     function createVideoPlayer(index) {
         const stream = streams[index];
         const videoWrapper = document.createElement("div");
         videoWrapper.className = "video-player";
         videoWrapper.id = `videoWrapper${index}`;
+        videoWrapper.style.gridColumn = 'span 1'; // Default to 1 column
         
         const title = document.createElement("h2");
         title.textContent = stream.title;
@@ -125,9 +187,41 @@ document.addEventListener("DOMContentLoaded", function() {
         video.controls = true;
         video.muted = true;
         
-        const expandButton = createButton("Expand", () => expandToFullscreen(index));
-        
-        videoWrapper.append(title, video, expandButton);
+        const buttonContainer = document.createElement("div");
+        buttonContainer.className = "button-container";
+
+        // Create left buttons (Expand and Hide)
+        const leftButtons = document.createElement("div");
+        leftButtons.appendChild(createButton("Expand", () => expandToFullscreen(index)));
+        leftButtons.appendChild(createButton("Hide", () => {
+            toggleStream(index, false);
+            syncUIWithToggleStates();
+        }));
+        leftButtons.appendChild(createButton("<", () => moveVideoUp(index)));
+        leftButtons.appendChild(createButton(">", () => moveVideoDown(index)));
+
+        // Create right buttons (+ColumnSpan, Reset Column Span, -ColumnSpan)
+        const rightButtons = document.createElement("div");
+        rightButtons.className = "right"; // For right alignment
+        rightButtons.appendChild(createButton("+ColumnSpan", () => {
+            increaseVideoSize(index);
+            updateButtonVisibility();
+        }));
+        rightButtons.appendChild(createButton("Reset Column Span", () => {
+            resetVideoSize(index);
+            updateButtonVisibility();
+        }));
+        rightButtons.appendChild(createButton("-ColumnSpan", () => {
+            decreaseVideoSize(index);
+            updateButtonVisibility();
+        }));
+
+        // Append left and right buttons to the button container
+        buttonContainer.appendChild(leftButtons);
+        buttonContainer.appendChild(rightButtons);
+
+        // Append all elements to the video wrapper
+        videoWrapper.append(title, video, buttonContainer);
         videoContainer.appendChild(videoWrapper);
         
         setupHlsPlayer(video, stream.url);
@@ -135,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function setupHlsPlayer(video, url) {
         if (Hls.isSupported()) {
-            const hls = new Hls({ maxBufferLength: 10, capLevelToPlayerSize: true, minLevel: 1 });
+            const hls = new Hls({ maxBufferLength: 20, capLevelToPlayerSize: true, minLevel: 1 });
             hls.loadSource(url);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
@@ -147,13 +241,102 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    function getVideoOrder() {
+        videoOrder = Array.from(videoContainer.children).map(wrapper => wrapper.id);
+    }
+
+    function moveVideoUp(index) {
+        const videoWrapper = document.getElementById(`videoWrapper${index}`);
+        const parent = videoWrapper.parentNode;
+        const previousWrapper = videoWrapper.previousElementSibling;
+        if (previousWrapper) {
+            parent.insertBefore(videoWrapper, previousWrapper);
+            updateURL();
+        }
+    }
+
+    function moveVideoDown(index) {
+        const videoWrapper = document.getElementById(`videoWrapper${index}`);
+        const parent = videoWrapper.parentNode;
+        const nextWrapper = videoWrapper.nextElementSibling;
+        if (nextWrapper) {
+            parent.insertBefore(nextWrapper, videoWrapper); // Move it after the next sibling
+            updateURL();
+        }
+    }
+
     function expandToFullscreen(index) {
         const video = document.getElementById(`fishtankVideo${index}`);
         const stream = streams[index];
         video.pause();
         setTimeout(() => {
-            window.location.href = `fullscreen.html?url=${encodeURIComponent(stream.url)}&title=${encodeURIComponent(stream.title)}&toggles=${encodeURIComponent(toggleStates)}`;
+            window.location.href = `fullscreen.html?url=${encodeURIComponent(stream.url)}&title=${encodeURIComponent(stream.title)}&toggles=${encodeURIComponent(toggleStates)}&columns=${encodeURIComponent(columnSelect.value)}&videoOrder=${encodeURIComponent(videoOrder)}`;
         }, 100);
+    }
+
+    function updateButtonVisibility() {
+        const selectedValue = document.getElementById("columnSelect").value;
+        const videoPlayers = document.querySelectorAll(".video-player");
+    
+        videoPlayers.forEach(videoPlayer => {
+            // Get the column span for the current video player
+            const columnSpan = parseInt(videoPlayer.style.gridColumn.split(' ')[1]);
+    
+            const buttons = videoPlayer.querySelectorAll("button");
+            
+            buttons.forEach(button => {
+                // Always show Expand and Hide buttons
+                if (button.textContent === "Expand" || button.textContent === "Hide" || button.textContent === "<" || button.textContent === ">") {
+                    button.style.display = "block";
+                } else if (selectedValue === "auto") {
+                    // Hide +ColumnSpan, -ColumnSpan, and Reset Column Span buttons when auto is selected
+                    if (button.textContent === "+ColumnSpan" || button.textContent === "-ColumnSpan" || button.textContent === "Reset Column Span") {
+                        button.style.display = "none";
+                    }
+                } else {
+                    // Logic for showing +ColumnSpan and -ColumnSpan based on columnSpan comparison
+                    if (columnSpan < selectedValue && button.textContent === "+ColumnSpan") {
+                        button.style.display = "block"; // Show +ColumnSpan
+                    } else if (columnSpan > 1 && button.textContent === "-ColumnSpan") {
+                        button.style.display = "block"; // Show -ColumnSpan
+                    } else {
+                        if (button.textContent === "+ColumnSpan" || button.textContent === "-ColumnSpan") {
+                            button.style.display = "none"; // Hide them if conditions aren't met
+                        }
+                    }
+                    
+                    // Show Reset Column Span if columnSpan is not 1
+                    if (columnSpan !== 1 && button.textContent === "Reset Column Span") {
+                        button.style.display = "block";
+                    } else if (button.textContent === "Reset Column Span") {
+                        button.style.display = "none";
+                    }
+                }
+            });
+        });
+    }
+
+    function increaseVideoSize(index) {
+        const videoWrapper = document.getElementById(`videoWrapper${index}`);
+        let currentColumnSpan = parseInt(videoWrapper.style.gridColumn.split(' ')[1]);
+        if (currentColumnSpan < columnSelect.value) {
+            currentColumnSpan++;
+            videoWrapper.style.gridColumn = `span ${currentColumnSpan}`;
+        }
+    }
+
+    function resetVideoSize(index) {
+        const videoWrapper = document.getElementById(`videoWrapper${index}`);
+        videoWrapper.style.gridColumn = `span ${1}`;
+    }
+
+    function decreaseVideoSize(index) {
+        const videoWrapper = document.getElementById(`videoWrapper${index}`);
+        let currentColumnSpan = parseInt(videoWrapper.style.gridColumn.split(' ')[1]);
+        if (currentColumnSpan > 1) {
+            currentColumnSpan--;
+            videoWrapper.style.gridColumn = `span ${currentColumnSpan}`;
+        }
     }
 
     function syncUIWithToggleStates() {
@@ -162,9 +345,41 @@ document.addEventListener("DOMContentLoaded", function() {
             checkbox.checked = toggleStates[index];
             toggleStreamDisplay(index, toggleStates[index]);
         });
+        updateVideoGrid();
     }
 
     function toggleCheckboxContainer() {
         checkboxContainer.style.display = checkboxContainer.style.display === "none" ? "grid" : "none";
+    }
+
+    function updateVideoGrid() {
+        const selectedValue = columnSelect.value;
+        const activePlayers = toggleStates.filter(state => state).length;
+
+        if (selectedValue === "auto") {
+            const videoPlayers = document.querySelectorAll(".video-player");
+    
+            videoPlayers.forEach(videoPlayer => {
+                videoPlayer.style.gridColumn = `span ${1}`;
+            });
+            // Default auto layout logic
+            const columns = Math.ceil(Math.sqrt(activePlayers));
+            videoContainer.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+        } else {
+            // Fixed columns based on dropdown selection
+            videoContainer.style.gridTemplateColumns = `repeat(${selectedValue}, 1fr)`;
+        }
+        document.querySelectorAll(".video-player").forEach(player => {
+            player.style.width = 100;
+        });
+        updateButtonVisibility();
+    }
+
+    function updateURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('toggles', toggleStates);
+        urlParams.set('columns', columnSelect.value);
+        urlParams.set('videoOrder', videoOrder.join(','));
+        history.replaceState(null, "", "?" + urlParams.toString());
     }
 });
