@@ -236,6 +236,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 minLevel: 1,
                 xhrSetup: function(xhr, url) {
                     xhr.withCredentials = false;
+                    xhr.mode = "no-cors";
                 }
             });
             hls.loadSource(url);
