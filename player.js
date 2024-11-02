@@ -186,6 +186,7 @@ document.addEventListener("DOMContentLoaded", function() {
         video.id = `fishtankVideo${index}`;
         video.controls = true;
         video.muted = true;
+        video.crossOrigin = "anonymous";
         
         const buttonContainer = document.createElement("div");
         buttonContainer.className = "button-container";
@@ -229,7 +230,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function setupHlsPlayer(video, url) {
         if (Hls.isSupported()) {
-            const hls = new Hls({ maxBufferLength: 20, capLevelToPlayerSize: true, minLevel: 1 });
+            const hls = new Hls({
+                maxBufferLength: 20, 
+                capLevelToPlayerSize: true, 
+                minLevel: 1,
+                xhrSetup: function(xhr, url) {
+                    xhr.withCredentials = false;
+                }
+            });
             hls.loadSource(url);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
