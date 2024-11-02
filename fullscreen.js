@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const videoUrl = urlParams.get('url');
     const title = urlParams.get('title');
     const togglesString = urlParams.get('toggles');
+    const columnNum = urlParams.get('columns');
+    const videoorderString = urlParams.get('videoOrder');
 
     const streams = [
         { title: "Director Mode", url: "https://ft.3045x.com/9b249j7qlqu0fypg/index.m3u8" },
@@ -37,8 +39,15 @@ document.addEventListener("DOMContentLoaded", function() {
         toggleStates = togglesString.split(',').map(toggle => toggle.trim() === 'true');
     }
 
+    let videoorder = [];
+    if (videoorder) {
+        videoorder = videoorderString.split(',');
+        videoWrapperIDs = indexFromvideoWrapper();
+    }
+
     // Filter active streams based on toggle states
-    const activeStreams = streams.filter((_, index) => toggleStates[index]);
+    //const activeStreams = streams.filter((_, index) => toggleStates[index]);
+    const activeStreams = videoWrapperIDs.map(index => streams[index]);
 
     let currentIndex = activeStreams.findIndex(stream => stream.url === videoUrl);
     const video = document.getElementById('fullscreenVideo');
@@ -47,6 +56,14 @@ document.addEventListener("DOMContentLoaded", function() {
     // Set the title in the document
     if (title) {
         document.getElementById('fullscreenTitle').textContent = title;
+    }
+
+    function indexFromvideoWrapper() {
+        const videoNumbers = videoorder.map(wrapper => {
+            const match = wrapper.match(/\d+/); // Match one or more digits
+            return match ? parseInt(match[0], 10) : null; // Convert to integer or return null if no match
+        }).filter(num => num !== null); // Filter out any null values
+        return videoNumbers
     }
 
     function loadVideo(index) {
@@ -80,29 +97,43 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    function updateURL(currentIndex) {
+        const params = new URLSearchParams(window.location.search);
+        const stream = activeStreams[currentIndex]
+        params.set('url', stream.url)
+        params.set('title', stream.title)
+        params.set('toggles', toggleStates);
+        params.set('columns', columnNum);
+        params.set('videoOrder', videoorder);
+        const newUrl = `${window.location.pathname}?${params.toString()}`;
+        history.replaceState({}, '', newUrl);
+    }
+
     // Load the initial video
     loadVideo(currentIndex);
+    updateURL(currentIndex);
 
     // Add event listeners for the navigation buttons
     document.querySelector('.left-button').addEventListener('click', function() {
         video.pause(); // Pause the video before redirecting
         currentIndex = (currentIndex - 1 + activeStreams.length) % activeStreams.length; // Cycle left
         loadVideo(currentIndex);
+        updateURL(currentIndex);
     });
 
     document.querySelector('.right-button').addEventListener('click', function() {
         video.pause(); // Pause the video before redirecting
         currentIndex = (currentIndex + 1) % activeStreams.length; // Cycle right
         loadVideo(currentIndex);
+        updateURL(currentIndex);
     });
 
     // Add event listener for the exit button
     document.querySelector('.exit-button').addEventListener('click', function() {
         video.pause(); // Pause the video before redirecting
-        
         setTimeout(() => {
             const prevToggles = toggleStates.map((state, index) => (state ? 'true' : 'false')).join(',');
-            window.location.href = `player.html?toggles=${prevToggles}`; // Redirect back to the main player page with previous toggle states
+            window.location.href = `player.html?toggles=${prevToggles}&columns=${columnNum}&videoOrder=${videoorder}`; // Redirect back to the main player page with previous toggle states        
         }, 100);
     });
 
