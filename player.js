@@ -1,8 +1,8 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const streams = [
         { title: "Director Mode", url: "https://ft.3045x.com/9b249j7qlqu0fypg/index.m3u8" },
         { title: "Den", url: "https://ft.3045x.com/d678xcnkn2slngkx/index.m3u8" },
-        { title: "Den PTZ", url: "https://ft.3045x.com/8e1arf44e86qa7ru/index.m3u8"},
+        { title: "Den PTZ", url: "https://ft.3045x.com/8e1arf44e86qa7ru/index.m3u8" },
         { title: "Lounge", url: "https://ft.3045x.com/9f41r40060icglir/index.m3u8" },
         { title: "Locker Room", url: "https://ft.3045x.com/7d3e7e9s5qm5l1uf/index.m3u8" },
         { title: "Deck", url: "https://ft.3045x.com/b4e4iknxyd1u4g0c/index.m3u8" },
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("dropdownButton").addEventListener("click", toggleCheckboxContainer);
 
-    document.addEventListener("click", function() {
+    document.addEventListener("click", function () {
         const columnSelect = document.getElementById("columnSelect");
         columnSelect.addEventListener("change", updateVideoGrid);
         updateButtonVisibility();
@@ -82,12 +82,12 @@ document.addEventListener("DOMContentLoaded", function() {
         const urlParams = new URLSearchParams(window.location.search);
         const orderString = urlParams.get('videoOrder');
         let videoOrder0;
-    
+
         if (orderString) {
             videoOrder0 = orderString.split(',');
         } else {
             videoOrder0 = Array.from(videoContainer.children).map(wrapper => wrapper.id);
-        }    
+        }
         return videoOrder0;
     }
 
@@ -102,10 +102,10 @@ document.addEventListener("DOMContentLoaded", function() {
     function addSelectButtons() {
         const buttonRow = document.createElement("div");
         buttonRow.className = "button-row";
-        
+
         const selectAllBtn = createButton("Select All", () => updateAllToggles(true));
         const deselectAllBtn = createButton("Deselect All", () => updateAllToggles(false));
-        
+
         buttonRow.append(selectAllBtn, deselectAllBtn);
         checkboxContainer.appendChild(buttonRow);
     }
@@ -127,17 +127,17 @@ document.addEventListener("DOMContentLoaded", function() {
         streams.forEach((stream, index) => {
             const checkboxItem = document.createElement("div");
             checkboxItem.className = "checkbox-item";
-            
+
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.id = `streamCheckbox${index}`;
             checkbox.checked = toggleStates[index];
             checkbox.addEventListener("change", () => toggleStream(index, checkbox.checked));
-            
+
             const label = document.createElement("label");
             label.htmlFor = `streamCheckbox${index}`;
             label.textContent = stream.title;
-            
+
             checkboxItem.append(checkbox, label);
             checkboxContainer.appendChild(checkboxItem);
         });
@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function toggleStreamDisplay(index, isChecked) {
         const videoWrapper = document.getElementById(`videoWrapper${index}`);
         const video = document.getElementById(`fishtankVideo${index}`);
-    
+
         if (isChecked) {
             if (!videoWrapper) {
                 createVideoPlayer(index);
@@ -175,16 +175,16 @@ document.addEventListener("DOMContentLoaded", function() {
         videoWrapper.className = "video-player";
         videoWrapper.id = `videoWrapper${index}`;
         videoWrapper.style.gridColumn = 'span 1'; // Default to 1 column
-        
+
         const title = document.createElement("h2");
         title.textContent = stream.title;
-        
+
         const video = document.createElement("video");
         video.id = `fishtankVideo${index}`;
         video.controls = true;
         video.muted = true;
         video.crossOrigin = "anonymous";
-        
+
         const buttonContainer = document.createElement("div");
         buttonContainer.className = "button-container";
 
@@ -221,17 +221,17 @@ document.addEventListener("DOMContentLoaded", function() {
         // Append all elements to the video wrapper
         videoWrapper.append(title, video, buttonContainer);
         videoContainer.appendChild(videoWrapper);
-        
+
         setupHlsPlayer(video, stream.url);
     }
 
     function setupHlsPlayer(video, url) {
         if (Hls.isSupported()) {
             const hls = new Hls({
-                maxBufferLength: 20, 
-                capLevelToPlayerSize: true, 
+                maxBufferLength: 20,
+                capLevelToPlayerSize: true,
                 minLevel: 1,
-                xhrSetup: function(xhr, url) {
+                xhrSetup: function (xhr, url) {
                     xhr.withCredentials = false;
                     xhr.mode = "no-cors";
                 }
@@ -283,13 +283,13 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateButtonVisibility() {
         const selectedValue = document.getElementById("columnSelect").value;
         const videoPlayers = document.querySelectorAll(".video-player");
-    
+
         videoPlayers.forEach(videoPlayer => {
             // Get the column span for the current video player
             const columnSpan = parseInt(videoPlayer.style.gridColumn.split(' ')[1]);
-    
+
             const buttons = videoPlayer.querySelectorAll("button");
-            
+
             buttons.forEach(button => {
                 // Always show Expand and Hide buttons
                 if (button.textContent === "Expand" || button.textContent === "Hide" || button.textContent === "<" || button.textContent === ">") {
@@ -310,7 +310,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             button.style.display = "none"; // Hide them if conditions aren't met
                         }
                     }
-                    
+
                     // Show Reset Column Span if columnSpan is not 1
                     if (columnSpan !== 1 && button.textContent === "Reset Column Span") {
                         button.style.display = "block";
@@ -364,7 +364,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (selectedValue === "auto") {
             const videoPlayers = document.querySelectorAll(".video-player");
-    
+
             videoPlayers.forEach(videoPlayer => {
                 videoPlayer.style.gridColumn = `span ${1}`;
             });

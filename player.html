@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fishtank Video Players</title>
-    <script src="libs/hls.min.js"></script>
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Fishtank Video Players</title>
+        <script src="libs/hls.min.js"></script>
+        <style>
         body {
             display: flex;
             flex-direction: column;
@@ -130,29 +130,30 @@
         }
 
     </style>
-</head>
-<body>
+    </head>
+    <body>
 
-    <h1>
-        <img src="icon48.png" alt="fish"> Fishtank S3 Video Players <img src="icon48.png" alt="fish">
-    </h1>
+        <h1>
+            <img src="icon48.png" alt="fish"> Fishtank S3 Video Players <img
+                src="icon48.png" alt="fish">
+        </h1>
 
-    <button id="dropdownButton">Display Options</button>
-    <div id="checkboxContainer" style="display: none;">
-        <div id="displayOptions">
-            <span>Number of columns: </span>
-            <select id="columnSelect">
-                <option value="auto">Auto and Hide ColumnSpan</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-            </select>
+        <button id="dropdownButton">Display Options</button>
+        <div id="checkboxContainer" style="display: none;">
+            <div id="displayOptions">
+                <span>Number of columns: </span>
+                <select id="columnSelect">
+                    <option value="auto">Auto and Hide ColumnSpan</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
         </div>
-    </div>
 
-    <div id="videoContainer"></div>
+        <div id="videoContainer"></div>
 
-    <script src="player.js"></script>
-</body>
+        <script src="player.js"></script>
+    </body>
 </html>
