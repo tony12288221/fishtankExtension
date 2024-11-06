@@ -33,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let videoOrder = initializeVideoOrder();
     let videoWrapperIDs = indexFromvideoWrapper();
     let activeStreams = videoWrapperIDs.map(index => streams[index]);
-    console.log(activeStreams);
     addSelectButtons();
     createStreamCheckboxes();
     initializeSyncUIWithToggleStates(activeStreams, videoWrapperIDs);
@@ -88,9 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
             videoOrder0 = orderString.split(',');
         } else {
             videoOrder0 = Array.from(videoContainer.children).map(wrapper => wrapper.id);
-        }
-        console.log(videoOrder0);
-    
+        }    
         return videoOrder0;
     }
 
@@ -389,6 +386,7 @@ document.addEventListener("DOMContentLoaded", function() {
         urlParams.set('toggles', toggleStates);
         urlParams.set('columns', columnSelect.value);
         urlParams.set('videoOrder', videoOrder.join(','));
+        urlParams.set('videoBrowsing', true);
         history.replaceState(null, "", "?" + urlParams.toString());
     }
 });
