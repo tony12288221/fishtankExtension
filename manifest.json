@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Fishtank Live Viewer",
-  "version": "1.3",
+  "version": "1.3.1",
   "description": "Opens a tab to display the fishtank live stream.",
   "action": {
     "default_popup": "popup.html",
