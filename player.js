@@ -26,6 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { title: "Confessional", url: "https://ft.3045x.com/21aflvcz5puavd2e/index.m3u8" },
     ];
 
+    const proxyUrl = 'https://corsproxy.io/?';
+
     const videoContainer = document.getElementById("videoContainer");
     const checkboxContainer = document.getElementById("checkboxContainer");
     const toggleStates = initializeToggleStates();
@@ -236,9 +238,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     xhr.mode = "no-cors";
                 }
             });
-            hls.loadSource(url);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+            url = proxyUrl + url;
+            setTimeout(() => {
+                hls.loadSource(url);  // Load the source after a delay
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+            }, 1000);
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = url;
             video.addEventListener('loadedmetadata', () => video.play());

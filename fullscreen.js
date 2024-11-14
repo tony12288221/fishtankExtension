@@ -108,6 +108,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { title: "Confessional", url: "https://ft.3045x.com/21aflvcz5puavd2e/index.m3u8" },
     ];
 
+    const proxyUrl = 'https://corsproxy.io/?';
+
     // Parse the toggles parameter
     let toggleStates = [];
     if (togglesString) {
@@ -167,11 +169,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 capLevelToPlayerSize: true,
                 minLevel: 1 // Adjust according to your stream quality levels
             });
-            hls.loadSource(stream.url);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                video.play();
-            });
+            let url = proxyUrl + stream.url;
+            setTimeout(() => {
+                hls.loadSource(url);  // Load the source after a delay
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+            }, 20);
             document.getElementById('fullscreenTitle').textContent = stream.title;
         } else {
             alert("Invalid video index.");
@@ -194,11 +197,12 @@ document.addEventListener("DOMContentLoaded", function () {
             capLevelToPlayerSize: true,
             minLevel: 1 // Adjust according to your stream quality levels
         });
-        hls.loadSource(stream.url);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, function () {
-            video.play();
-        });
+        let url = proxyUrl + stream.url;
+            setTimeout(() => {
+                hls.loadSource(url);  // Load the source after a delay
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+            }, 20);
         document.getElementById('fullscreenTitle').textContent = stream.title;
     }
 
