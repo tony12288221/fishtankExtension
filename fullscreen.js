@@ -84,30 +84,30 @@
             ];
 
             const streams = [
-                { title: "Director Mode", url: "https://ft.3045x.com/9b249j7qlqu0fypg/index.m3u8" },
-                { title: "Den", url: "https://ft.3045x.com/d678xcnkn2slngkx/index.m3u8" },
-                { title: "Den PTZ", url: "https://ft.3045x.com/8e1arf44e86qa7ru/index.m3u8" },
-                { title: "Lounge", url: "https://ft.3045x.com/9f41r40060icglir/index.m3u8" },
-                { title: "Locker Room", url: "https://ft.3045x.com/7d3e7e9s5qm5l1uf/index.m3u8" },
-                { title: "Deck", url: "https://ft.3045x.com/b4e4iknxyd1u4g0c/index.m3u8" },
-                { title: "Yard", url: "https://ft.3045x.com/8ac015orral0pm4c/index.m3u8" },
-                { title: "Yard PTZ", url: "https://ft.3045x.com/b51399w8tr5qa0v1/index.m3u8" },
-                { title: "Catwalk", url: "https://ft.3045x.com/580elsslerqmt28u/index.m3u8" },
-                { title: "Mail Room", url: "https://ft.3045x.com/84485q0ve58ckwm2/index.m3u8" },
-                { title: "Kitchen", url: "https://ft.3045x.com/8c8btla37r6nux8f/index.m3u8" },
-                { title: "Island", url: "https://ft.3045x.com/d578z2acldqyww5x/index.m3u8" },
-                { title: "Dining Room", url: "https://ft.3045x.com/afacw5eipuyfsfny/index.m3u8" },
-                { title: "Hallway", url: "https://ft.3045x.com/3760543f053u6c5m/index.m3u8" },
-                { title: "Bedroom 1", url: "https://ft.3045x.com/b65269ekvyvfkous/index.m3u8" },
-                { title: "Bedroom 2", url: "https://ft.3045x.com/36708jd80gr91018/index.m3u8" },
-                { title: "Bedroom 3", url: "https://ft.3045x.com/44daqjc6r1dfxd2e/index.m3u8" },
-                { title: "Vanity", url: "https://ft.3045x.com/68f8q4hl8cys37n2/index.m3u8" },
-                { title: "Penthouse", url: "https://ft.3045x.com/0c0bun9tebd65k3j/index.m3u8" },
-                { title: "Loft", url: "https://ft.3045x.com/9d5ckl8snb01ba6i/index.m3u8" },
-                { title: "Jacuzzi", url: "https://ft.3045x.com/122bkgvyrj1f7pk4/index.m3u8" },
-                { title: "Bar", url: "https://ft.3045x.com/f77b5hz939s8z89b/index.m3u8" },
-                { title: "Flat", url: "https://ft.3045x.com/4fb8to1674q6ht0m/index.m3u8" },
-                { title: "Confessional", url: "https://ft.3045x.com/21aflvcz5puavd2e/index.m3u8" },
+                { title: "Director Mode", url: "https://ft-hetzner.flowstreams.cx/9b249j7qlqu0fypg/index.m3u8" },
+                { title: "Den", url: "https://ft-hetzner.flowstreams.cx/d678xcnkn2slngkx/index.m3u8" },
+                { title: "Den PTZ", url: "https://ft-hetzner.flowstreams.cx/8e1arf44e86qa7ru/index.m3u8" },
+                { title: "Lounge", url: "https://ft-hetzner.flowstreams.cx/9f41r40060icglir/index.m3u8" },
+                { title: "Locker Room", url: "https://ft-hetzner.flowstreams.cx/7d3e7e9s5qm5l1uf/index.m3u8" },
+                { title: "Deck", url: "https://ft-hetzner.flowstreams.cx/b4e4iknxyd1u4g0c/index.m3u8" },
+                { title: "Yard", url: "https://ft-hetzner.flowstreams.cx/8ac015orral0pm4c/index.m3u8" },
+                { title: "Yard PTZ", url: "https://ft-hetzner.flowstreams.cx/b51399w8tr5qa0v1/index.m3u8" },
+                { title: "Catwalk", url: "https://ft-hetzner.flowstreams.cx/580elsslerqmt28u/index.m3u8" },
+                { title: "Mail Room", url: "https://ft-hetzner.flowstreams.cx/84485q0ve58ckwm2/index.m3u8" },
+                { title: "Kitchen", url: "https://ft-hetzner.flowstreams.cx/8c8btla37r6nux8f/index.m3u8" },
+                { title: "Island", url: "https://ft-hetzner.flowstreams.cx/d578z2acldqyww5x/index.m3u8" },
+                { title: "Dining Room", url: "https://ft-hetzner.flowstreams.cx/afacw5eipuyfsfny/index.m3u8" },
+                { title: "Hallway", url: "https://ft-hetzner.flowstreams.cx/3760543f053u6c5m/index.m3u8" },
+                { title: "Bedroom 1", url: "https://ft-hetzner.flowstreams.cx/b65269ekvyvfkous/index.m3u8" },
+                { title: "Bedroom 2", url: "https://ft-hetzner.flowstreams.cx/36708jd80gr91018/index.m3u8" },
+                { title: "Bedroom 3", url: "https://ft-hetzner.flowstreams.cx/44daqjc6r1dfxd2e/index.m3u8" },
+                { title: "Vanity", url: "https://ft-hetzner.flowstreams.cx/68f8q4hl8cys37n2/index.m3u8" },
+                { title: "Penthouse", url: "https://ft-hetzner.flowstreams.cx/0c0bun9tebd65k3j/index.m3u8" },
+                { title: "Loft", url: "https://ft-hetzner.flowstreams.cx/9d5ckl8snb01ba6i/index.m3u8" },
+                { title: "Jacuzzi", url: "https://ft-hetzner.flowstreams.cx/122bkgvyrj1f7pk4/index.m3u8" },
+                { title: "Bar", url: "https://ft-hetzner.flowstreams.cx/f77b5hz939s8z89b/index.m3u8" },
+                { title: "Flat", url: "https://ft-hetzner.flowstreams.cx/4fb8to1674q6ht0m/index.m3u8" },
+                { title: "Confessional", url: "https://ft-hetzner.flowstreams.cx/21aflvcz5puavd2e/index.m3u8" },
             ];
 
             const proxyUrl = 'https://corsproxy.io/?';
@@ -167,11 +167,24 @@
                 if (index >= 0 && index < activeStreams.length) {
                     const stream = activeStreams[index];
                     hls = new Hls({
-                        maxBufferLength: 20,
+                        startLevel: -1, // Start at auto quality
+                        maxBufferLength: 10, // Reduce buffer size
                         capLevelToPlayerSize: true,
-                        minLevel: 1 // Adjust according to your stream quality levels
+                        minAutoBitrate: 1000000, // Set minimum bitrate to prioritize lower-quality streams
+                        manifestLoadingRetryDelay: 500, // Retry delay for loading the manifest
+                        levelLoadingRetryDelay: 500, // Retry delay for levels
+                        maxMaxBufferLength: 20,
+                        maxBufferSize: 60 * 1000 * 500, // 500KB max buffer size
+                        maxBackBufferLength: 30,
+                        lowLatencyMode: true, // Enable low-latency playback
+                        liveSyncDuration: 3,  // Synchronize more closely with the live stream
+                        liveMaxLatencyDuration: 5,
+                        xhrSetup: function (xhr, url) {
+                            xhr.withCredentials = false;
+                            //xhr.mode = "no-cors";
+                        }
                     });
-                    let url = proxyUrl + stream.url;
+                    let url = stream.url;//proxyUrl + stream.url;
                     setTimeout(() => {
                         hls.loadSource(url);  // Load the source after a delay
                         hls.attachMedia(video);
@@ -199,7 +212,7 @@
                     capLevelToPlayerSize: true,
                     minLevel: 1 // Adjust according to your stream quality levels
                 });
-                let url = proxyUrl + stream.url;
+                let url = stream.url;//proxyUrl + stream.url;
                 setTimeout(() => {
                     hls.loadSource(url);  // Load the source after a delay
                     hls.attachMedia(video);
