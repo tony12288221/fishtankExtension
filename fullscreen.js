@@ -184,7 +184,7 @@
                             //xhr.mode = "no-cors";
                         }
                     });
-                    let url = stream.url;//proxyUrl + stream.url;
+                    let url = proxyUrl + stream.url;
                     setTimeout(() => {
                         hls.loadSource(url);  // Load the source after a delay
                         hls.attachMedia(video);
@@ -212,7 +212,7 @@
                     capLevelToPlayerSize: true,
                     minLevel: 1 // Adjust according to your stream quality levels
                 });
-                let url = stream.url;//proxyUrl + stream.url;
+                let url = proxyUrl + stream.url;
                 setTimeout(() => {
                     hls.loadSource(url);  // Load the source after a delay
                     hls.attachMedia(video);

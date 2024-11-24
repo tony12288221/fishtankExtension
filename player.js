@@ -230,7 +230,7 @@
             }
 
             function setupHlsPlayer(video, url0, retries = 3) {
-                url = url0;//proxyUrl + url0;
+                url = proxyUrl + url0;
                 if (Hls.isSupported()) {
                     const hls = new Hls({
                         startLevel: -1, // Start at auto quality
